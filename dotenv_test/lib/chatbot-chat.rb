@@ -16,7 +16,6 @@ def generate_response(prompt, api_key)
   data = {
     "messages" => [{"role" => "system", "content" => prompt}],
     "max_tokens" => 150,
-    "n" => "1",
     "temperature" => 0,
     "model" => "gpt-3.5-turbo"
   }
@@ -35,6 +34,8 @@ end
 # Method to interact with the bot
 def bot_interaction(api_key, conversation_history)
   puts "Welcome to the Bot! Type 'exit' to quit."
+
+  conversation_history = [{"role" => "system", "content" => "Parle moi des chats"}]
   
   loop do
     print "You: "
@@ -46,29 +47,19 @@ def bot_interaction(api_key, conversation_history)
     puts "Bot: #{response}"
   
     # Store the interaction in history
-    conversation_history << { prompt: user_input, response: response }
+    
+    conversation_history << { "role" => "user", "content" => user_input }
+    conversation_history << {"role"=> "ai", "content" => response }
   end
   
   puts "Exiting the Bot. Goodbye!"
 end
 
-# Method to converse with the AI bot
-def converse_with_ai(api_key)
-  conversation_history = []
-  bot_interaction(api_key, conversation_history)
-  
-  # Output conversation history at the end
-  puts "\nConversation History:"
-  conversation_history.each_with_index do |interaction, index|
-    puts "#{index + 1}. User: #{interaction[:prompt]}"
-    puts "   Bot: #{interaction[:response]}"
-  end
-end
-
 # Example usage
 def main
   api_key = ENV["OPENAI_API_KEY"]
-  converse_with_ai(api_key)
+  conversation_history = [{"role" => "system", "content" => "Parle moi des chats"}]
+  bot_interaction(api_key, conversation_history )
 end
 
 main

@@ -1,4 +1,4 @@
-clas Maze
+class Maze
   def initialize(width, height)
     @width = width
     @height = height
@@ -9,12 +9,12 @@ clas Maze
   end
 
   private
-
+  
   def create_maze(x, y)
     directions = [[x, y - 2], [x, y + 2], [x - 2, y], [x + 2, y]].shuffle
 
     directions.each do |new_x, new_y|
-      if new_y.between?(1, @height * 2) && new_x.betwen?(1, @width * 2) && @maze[new_y][new_x] == "#"
+      if new_y.between?(1, @height * 2) && new_x.between?(1, @width * 2) && @maze[new_y][new_x] == "#"
         @maze[y + (new_y - y) / 2][x + (new_x - x) / 2] = " "
         @maze[new_y][new_x] = " "
         create_maze(new_x, new_y)
@@ -28,11 +28,11 @@ clas Maze
   end
 
   def display_maze
-    @maze.each { |row puts row.join }
+    @maze.each { |row| puts row.join }
   end
 end
 
 width = 10
 height = 10
 
-Maze.new(widh, height)
+Maze.new(width, height)
